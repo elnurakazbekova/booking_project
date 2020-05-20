@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+                        <form th:action="@{/login}" method="POST" class="form-signin">
+                            <div class="form-group row">
+                                <label for="email_address" class="col-md-4 col-form-label text-md-right" th:text="#{username}"></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="email_address" class="form-control" name="username" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right" th:text="#{password}"></label>
+                                <div class="col-md-6">
+                                    <input type="password" id="password" class="form-control" name="password" required>
+
+                                    <!--<p th:if="${param.error}" th:text="#{invalid.user}" style="font-size: 20; color: #FF1C19;"></p>-->
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary" th:text="#{login}"></button>
+                            </div>
+
+                        </form>
+
+
+
+<!--<script src="/js/script.js"></script>-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+<!--<script src="https://kit.fontawesome.com/5572124dac.js"></script>-->
+
+</body>
+</html>
