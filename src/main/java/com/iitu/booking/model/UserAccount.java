@@ -1,17 +1,25 @@
 package com.iitu.booking.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_account")
-public class UserAccount extends BaseEntity{
+public class UserAccount extends BaseEntity implements Serializable {
 
-    @Column(name = "login", unique = true)
-    private String login;
+    @Column(name = "username", unique = true)
+    @NotEmpty
+    private String username;
 
     @Column(name = "password")
+    @Size(min = 8)
+    @NotEmpty
     private String password;
 
     @Column(name = "phone")
@@ -19,27 +27,35 @@ public class UserAccount extends BaseEntity{
     private String phone;
 
     @Column(name = "first_name")
+    @NotEmpty
     private String firstName;
 
     @Column(name = "last_name")
+    @NotEmpty
     private String lastName;
 
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(name = "email")
+    @Email
+    @NotEmpty
     private String email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_role_id", nullable = true)
-    private UserRole role;
+    @Column(name = "active")
+    private boolean active;
 
-    public String getLogin() {
-        return login;
+    @ElementCollection(targetClass = UserRole.class,fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<UserRole> role;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -90,11 +106,19 @@ public class UserAccount extends BaseEntity{
         this.email = email;
     }
 
-    public UserRole getRole() {
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<UserRole> getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRoles(Set<UserRole> role) {
         this.role = role;
     }
 }

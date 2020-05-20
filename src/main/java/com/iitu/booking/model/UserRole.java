@@ -1,30 +1,13 @@
 package com.iitu.booking.model;
 
-import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
-@Entity
-@Table(name = "user_role")
-public class UserRole extends BaseEntity{
+public enum UserRole implements GrantedAuthority {
+    CUSTOMER,
+    ADMIN;
 
-    @Column(name = "name", unique = true)
-    private String name;
-
-    @Column(name = "code")
-    private String code;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    @Override
+    public String getAuthority() {
+        return name();
     }
 }
