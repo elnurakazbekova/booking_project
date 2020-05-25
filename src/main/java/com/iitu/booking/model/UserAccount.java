@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -34,16 +33,13 @@ public class UserAccount extends BaseEntity implements Serializable {
     @NotEmpty
     private String lastName;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Email
     @NotEmpty
     private String email;
 
-    @Column(name = "active")
-    private boolean active;
+    @Transient
+    private Long roleId;
 
     @ElementCollection(targetClass = UserRole.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -90,14 +86,6 @@ public class UserAccount extends BaseEntity implements Serializable {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -106,19 +94,20 @@ public class UserAccount extends BaseEntity implements Serializable {
         this.email = email;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public Set<UserRole> getRole() {
         return role;
     }
 
-    public void setRoles(Set<UserRole> role) {
+    public void setRole(Set<UserRole> role) {
         this.role = role;
     }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
 }

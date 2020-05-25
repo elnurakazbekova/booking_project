@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users Page</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Username</td>
+        <td>Email</td>
+        <td>First name</td>
+        <td>Last name</td>
+        <td>Phone</td>
+        <td>Role</td>
+    </tr>
+    <tr th:each="user:${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.phone}"></td>
+        <td th:if="${user.getRole().contains(T(com.iitu.booking.model.UserRole).ADMIN)}">ADMIN</td>
+        <td th:if="${user.getRole().contains(T(com.iitu.booking.model.UserRole).CUSTOMER)}">
+            <form th:action="@{/user/delete/}+${user.id}" method="post" th:object="${user}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+</body>
+</html>

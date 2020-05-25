@@ -18,8 +18,10 @@ public class UserAccountService {
     }
 
     public UserAccount addUser(UserAccount user){
-        user.setRoles(Collections.singleton(UserRole.CUSTOMER));
-        user.setActive(true);
+        if (user.getRoleId() == Long.valueOf(1))
+            user.setRole(Collections.singleton(UserRole.ADMIN));
+        else
+            user.setRole(Collections.singleton(UserRole.CUSTOMER));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
     }
