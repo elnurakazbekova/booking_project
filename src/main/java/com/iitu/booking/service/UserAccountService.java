@@ -3,6 +3,7 @@ package com.iitu.booking.service;
 import com.iitu.booking.model.UserAccount;
 import com.iitu.booking.model.UserRole;
 import com.iitu.booking.repository.UserAccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,9 @@ import java.util.List;
 
 @Service
 public class UserAccountService {
-    private final UserAccountRepository userRepository;
 
-    public UserAccountService(UserAccountRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserAccountRepository userAccountRepository;
 
     public UserAccount addUser(UserAccount user){
         if (user.getRoleId() == Long.valueOf(1))
@@ -23,22 +22,22 @@ public class UserAccountService {
         else
             user.setRole(Collections.singleton(UserRole.CUSTOMER));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return userRepository.save(user);
+        return userAccountRepository.save(user);
     }
     public UserAccount findUser(UserAccount user){
-        return userRepository.findByUsernameAndEmail(user.getUsername(), user.getEmail());
+        return userAccountRepository.findByUsernameAndEmail(user.getUsername(), user.getEmail());
     }
 
     public List<UserAccount> getAll() {
-        return userRepository.findAll();
+        return userAccountRepository.findAll();
     }
 
     public void delete(UserAccount user){
-        this.userRepository.delete(user);
+        this.userAccountRepository.delete(user);
     }
 
     public UserAccount getUserByUsername(String username) {
-        UserAccount user = userRepository.findByUsername(username);
+        UserAccount user = userAccountRepository.findByUsername(username);
         if (user != null) {
             return user;
         }

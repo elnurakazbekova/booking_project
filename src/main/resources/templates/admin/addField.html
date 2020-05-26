@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Field Page</title>
+</head>
+<body>
+
+<form th:action="@{/field/add}"
+      th:object="${field}" method="post"
+      role="form">
+    <div>
+        <label>Name</label>
+        <input type="text" th:field="*{name}" />
+    </div>
+    <div>
+        <label>Address</label>
+        <input type="text" th:field="*{address}" />
+    </div>
+    <div>
+        <label>Starting time</label>
+        <input type="time" th:field="*{startingTime}" />
+    </div>
+    <div>
+        <label>Closing time</label>
+        <input type="time" th:field="*{closingTime}" />
+    </div>
+    <div>
+        <label>Football</label>
+        <input type="radio" th:field="*{fieldTypeId}" value="1" />
+        <label>PingPong</label>
+        <input type="radio" th:field="*{fieldTypeId}" value="2" />
+        <label>Basketball</label>
+        <input type="radio" th:field="*{fieldTypeId}" value="3" />
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+<a href="/fields">list of fields</a>
+</body>
+</html>
