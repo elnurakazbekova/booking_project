@@ -1,7 +1,11 @@
 package com.iitu.booking.controller;
 
+import com.iitu.booking.model.Field;
+import com.iitu.booking.model.FieldType;
 import com.iitu.booking.model.UserAccount;
 import com.iitu.booking.model.UserRole;
+import com.iitu.booking.service.FieldService;
+import com.iitu.booking.service.FieldTypeService;
 import com.iitu.booking.service.UserAccountService;
 import com.iitu.booking.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,12 @@ public class AdminController {
 
     @Autowired
     private UserAccountService userService;
+
+    @Autowired
+    private FieldService fieldService;
+
+    @Autowired
+    private FieldTypeService fieldTypeService;
 
     @GetMapping("")
     public String showHomePage(Authentication authentication, Model model) {
@@ -75,5 +85,95 @@ public class AdminController {
         userService.delete(user);
         return "redirect:/users";
     }
+
+    @GetMapping("fields")
+    public String showFieldsPage(Authentication authentication, Model model) {
+        if (authentication.getName()!= null)
+            model.addAttribute("authenticatedUser", authentication.getName());
+        model.addAttribute("fields", fieldService.getAll());
+        return "admin/fields";
+    }
+
+    @GetMapping("field/add")
+    public String showAddFieldPage(Authentication authentication, Model model) {
+        if(authentication.getName() != null) {
+            model.addAttribute("authenticatedUser", authentication.getName());
+        }
+        model.addAttribute("field", new Field());
+        model.addAttribute("fieldTypes", fieldTypeService.getAllFieldTypes());
+        return "admin/addField";
+    }
+
+    @PostMapping("field/add")
+    public String addField(Authentication authentication, Field field, Model model) {
+        if(authentication.getName() != null) {
+            model.addAttribute("authenticatedUser", authentication.getName());
+        }
+//        UserAccount userExists = userService.findUser(user);
+//        if (userExists != null) {
+//            model.addAttribute("userExists", true);
+//        }
+//        else if (bindingResult.hasErrors()) {
+//            model.addAttribute("bindingResult", bindingResult);
+//        }
+//        else {
+
+        fieldService.addField(field, authentication);
+//        model.addAttribute("userRegistered", "User is successfully registered");
+//        }
+        return "redirect:/field/add";
+    }
+
+    @PostMapping("field/delete/{id}")
+    public String deleteField(@PathVariable("id") Field field){
+        fieldService.delete(field);
+        return "redirect:/fields";
+    }
+
+    @GetMapping("fieldTypes")
+    public String showFieldTypesPage(Authentication authentication, Model model) {
+        if (authentication.getName()!= null)
+            model.addAttribute("authenticatedUser", authentication.getName());
+        model.addAttribute("fieldTypes", fieldTypeService.getAllFieldTypes());
+        return "admin/fieldTypes";
+    }
+
+    @GetMapping("fieldType/add")
+    public String showAddFieldTypePage(Authentication authentication, Model model) {
+        if(authentication.getName() != null) {
+            model.addAttribute("authenticatedUser", authentication.getName());
+        }
+        model.addAttribute("fieldType", new FieldType());
+        model.addAttribute("fieldTypes", fieldTypeService.getAllFieldTypes());
+        return "admin/addFieldType";
+    }
+
+    @PostMapping("fieldType/add")
+    public String addFieldType(Authentication authentication, FieldType fieldType, Model model) {
+        if(authentication.getName() != null) {
+            model.addAttribute("authenticatedUser", authentication.getName());
+        }
+//        UserAccount userExists = userService.findUser(user);
+//        if (userExists != null) {
+//            model.addAttribute("userExists", true);
+//        }
+//        else if (bindingResult.hasErrors()) {
+//            model.addAttribute("bindingResult", bindingResult);
+//        }
+//        else {
+
+        fieldTypeService.addFieldType(fieldType);
+//        model.addAttribute("userRegistered", "User is successfully registered");
+//        }
+        return "redirect:/fieldType/add";
+    }
+
+    @PostMapping("fieldType/delete/{id}")
+    public String deleteFieldType(@PathVariable("id") FieldType fieldType){
+        fieldTypeService.delete(fieldType);
+        return "redirect:/fieldTypes";
+    }
+
+
 }
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fields Page</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Address</td>
+        <td>Starting time</td>
+        <td>Closing time</td>
+        <td>Field type code</td>
+        <td>Owner username</td>
+    </tr>
+    <tr th:each="field:${fields}">
+        <td th:text="${field.id}"></td>
+        <td th:text="${field.name}"></td>
+        <td th:text="${field.address}"></td>
+        <td th:text="${field.startingTime}"></td>
+        <td th:text="${field.closingTime}"></td>
+        <td th:text="${field.fieldTypeId.code}"></td>
+        <td th:text="${field.ownerId.username}"></td>
+        <td th:if="${field.ownerId.username == authenticatedUser}">
+            <form th:action="@{/field/delete/}+${field.id}" method="post" th:object="${field}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<a href="/field/add">add new field</a>
+</body>
+</html>

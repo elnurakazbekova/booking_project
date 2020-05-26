@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Field Types Page</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Code</td>
+    </tr>
+    <tr th:each="type:${fieldTypes}">
+        <td th:text="${type.id}"></td>
+        <td th:text="${type.name}"></td>
+        <td th:text="${type.code}"></td>
+        <td>
+            <form th:action="@{/fieldType/delete/}+${type.id}" method="post" th:object="${fieldType}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<a href="/fieldType/add">add new field type</a>
+</body>
+</html>
