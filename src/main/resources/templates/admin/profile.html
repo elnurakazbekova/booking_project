@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>User</title>
+</head>
+<body th:fragment="content">
+<h3 class="header smaller lighter blue">
+    <span th:text="'Пользователь: ' + ${user.lastName} + ' ' + ${user.firstName}"></span>
+    <button type="button" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteUserDialog">Удалить</button>
+    <!--<a th:href="@{/user/{id}/edit(id=${userAccountForm.id})}" class="btn btn-success">Изменить</a>-->
+    <!--<span sec:authorize="hasRole('USER_EDIT')" style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;"-->
+          <!--th:if="${userAccountForm.id != #authentication.principal.id and userAccountForm.active}">-->
+            <!--<a th:href="@{/user/{id}/editPassword(id=${userAccountForm.id})}" class="btn btn-warning">Изменить пароль</a>-->
+        <!--</span>-->
+    <!--<span style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;"-->
+          <!--th:if="${userAccountForm.id == #authentication.principal.id}">-->
+            <!--<a th:href="@{/user/{id}/editPassword(id=${userAccountForm.id})}" class="btn btn-warning">Изменить пароль</a>-->
+        <!--</span>-->
+    <!--<span sec:authorize="hasRole('USER_EDIT')" style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;"-->
+          <!--th:if="${userAccountForm.id != #authentication.principal.id and userAccountForm.locked}">-->
+            <!--<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unlockUserDialog">Разблокировать</button>-->
+        <!--</span>-->
+    <!--<span sec:authorize="hasRole('USER_VIEW') and hasRole('ROLE_VIEW')" style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;">-->
+            <!--<a th:href="@{/user/{id}/permissions(id=${userAccountForm.id})}" class="btn btn-success">Разрешения</a>-->
+        <!--</span>-->
+</h3>
+<!--<div th:if="${passwordChangeFail}" th:include="/templates/alert :: alert('danger', 'Произошла ошибка при изменении пароля.')"></div>-->
+<!--<div th:if="${passwordChangeSuccess}" th:include="/templates/alert :: alert('success', 'Пароль успешно изменен.')"></div>-->
+<div class="col-sm-4 col-view">
+    <p>Фамилия</p>
+    <span th:text="${user.lastName}"></span>
+    <p>Имя</p>
+    <span th:text="${user.firstName}"></span>
+    <p>Email</p>
+    <span th:text="${user.email}"></span>
+</div>
+<div class="col-sm-4 col-view">
+    <p>Логин</p>
+    <span th:text="${user.username}"></span>
+    <!--<p>Роль в системе</p>-->
+    <!--<span th:text="${user.role.get(userAccountForm.userRole)}"></span>-->
+
+</div>
+
+<!--<div id="deleteUserDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true" style="display: none;">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+            <!--<form th:action="@{'/user/' + ${userAccountForm.id} + '/delete'}" method="post" class="valid">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal">-->
+                        <!--<span aria-hidden="true">×</span>-->
+                        <!--<span class="sr-only">Close</span>-->
+                    <!--</button>-->
+                    <!--<h4 class="modal-title" id="delModalLabel">Подтверждение удаления пользователя</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                    <!--<span>Вы действительно хотите удалить пользователя</span>-->
+                    <!--<b>-->
+                        <!--<span th:text="${userAccountForm.login}"></span>-->
+                    <!--</b>-->
+                    <!--<span>?</span>-->
+                <!--</div>-->
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn" data-dismiss="modal">Закрыть</button>-->
+                    <!--<button type="submit" class="btn btn-danger">Удалить</button>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div id="unlockUserDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true" style="display: none;">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+            <!--<form th:action="@{'/user/' + ${userAccountForm.id} + '/unlock'}" method="post" class="valid">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal">-->
+                        <!--<span aria-hidden="true">×</span>-->
+                        <!--<span class="sr-only">Close</span>-->
+                    <!--</button>-->
+                    <!--<h4 class="modal-title" id="unlockModalLabel">Подтверждение разблокировки пользователя</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                    <!--<span>Вы действительно хотите снять временную блокировку аккаунта пользователя</span>-->
+                    <!--<b>-->
+                        <!--<span th:text="${userAccountForm.login}"></span>-->
+                    <!--</b>-->
+                    <!--<span>?</span>-->
+                <!--</div>-->
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn" data-dismiss="modal">Закрыть</button>-->
+                    <!--<button type="submit" class="btn btn-warning">Разблокировать</button>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<form class="form-horizontal" method="post">-->
+    <!--<input type="hidden" class="form-control" id="userAccountForm.id" th:field="*{userAccountForm.id}" />-->
+    <!--&lt;!&ndash; /* Show general error message when form contains errors */ &ndash;&gt;-->
+    <!--<div th:if="${#fields.hasErrors('${userAccountForm.*}')}" th:include="/templates/alert :: alert('danger', 'Форма содержит ошибки. Исправьте их, пожалуйста.')"></div>-->
+<!--</form>-->
+</body>
+</html>

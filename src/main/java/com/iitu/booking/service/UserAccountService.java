@@ -24,6 +24,13 @@ public class UserAccountService {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userAccountRepository.save(user);
     }
+
+    public UserAccount registerUser(UserAccount user) {
+        user.setRole(Collections.singleton(UserRole.CUSTOMER));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        return userAccountRepository.save(user);
+    }
+
     public UserAccount findUser(UserAccount user){
         return userAccountRepository.findByUsernameAndEmail(user.getUsername(), user.getEmail());
     }

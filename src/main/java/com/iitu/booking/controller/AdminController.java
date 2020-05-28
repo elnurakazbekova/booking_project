@@ -3,7 +3,6 @@ package com.iitu.booking.controller;
 import com.iitu.booking.model.Field;
 import com.iitu.booking.model.FieldType;
 import com.iitu.booking.model.UserAccount;
-import com.iitu.booking.model.UserRole;
 import com.iitu.booking.service.FieldService;
 import com.iitu.booking.service.FieldTypeService;
 import com.iitu.booking.service.UserAccountService;
@@ -12,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/")
@@ -40,7 +36,28 @@ public class AdminController {
     public String showHomePage(Authentication authentication, Model model) {
         if (authentication.getName()!= null)
             model.addAttribute("authenticatedUser", authentication.getName());
-        return "admin/home";
+        model.addAttribute("users", userService.getAll());
+        return "admin/users";
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationPage(Model model) {
+        model.addAttribute("user", new UserAccount());
+        return "admin/register";
+    }
+
+    @PostMapping("/register")
+    public String register(UserAccount user) {
+        userService.registerUser(user);
+        return "admin/login";
+    }
+
+    @GetMapping("/profile/{username}")
+    public String showProfilePage(Authentication authentication, @PathVariable String username, Model model) {
+        if (authentication.getName()!= null)
+            model.addAttribute("authenticatedUser", authentication.getName());
+        model.addAttribute("user", userService.getUserByUsername(username));
+        return "admin/profile";
     }
 
     @GetMapping("users")
@@ -77,7 +94,7 @@ public class AdminController {
             userService.addUser(user);
             model.addAttribute("userRegistered", "User is successfully registered");
 //        }
-        return "redirect:/user/add";
+        return "redirect:/users";
     }
 
     @PostMapping("user/delete/{id}")
