@@ -1,104 +1,259 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>User</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Profile</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 </head>
-<body th:fragment="content">
-<h3 class="header smaller lighter blue">
-    <span th:text="'Пользователь: ' + ${user.lastName} + ' ' + ${user.firstName}"></span>
-    <button type="button" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteUserDialog">Удалить</button>
-    <!--<a th:href="@{/user/{id}/edit(id=${userAccountForm.id})}" class="btn btn-success">Изменить</a>-->
-    <!--<span sec:authorize="hasRole('USER_EDIT')" style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;"-->
-          <!--th:if="${userAccountForm.id != #authentication.principal.id and userAccountForm.active}">-->
-            <!--<a th:href="@{/user/{id}/editPassword(id=${userAccountForm.id})}" class="btn btn-warning">Изменить пароль</a>-->
-        <!--</span>-->
-    <!--<span style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;"-->
-          <!--th:if="${userAccountForm.id == #authentication.principal.id}">-->
-            <!--<a th:href="@{/user/{id}/editPassword(id=${userAccountForm.id})}" class="btn btn-warning">Изменить пароль</a>-->
-        <!--</span>-->
-    <!--<span sec:authorize="hasRole('USER_EDIT')" style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;"-->
-          <!--th:if="${userAccountForm.id != #authentication.principal.id and userAccountForm.locked}">-->
-            <!--<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unlockUserDialog">Разблокировать</button>-->
-        <!--</span>-->
-    <!--<span sec:authorize="hasRole('USER_VIEW') and hasRole('ROLE_VIEW')" style="float: right; margin-top: -2px; margin-left: 2px; margin-right: 2px;">-->
-            <!--<a th:href="@{/user/{id}/permissions(id=${userAccountForm.id})}" class="btn btn-success">Разрешения</a>-->
-        <!--</span>-->
-</h3>
-<!--<div th:if="${passwordChangeFail}" th:include="/templates/alert :: alert('danger', 'Произошла ошибка при изменении пароля.')"></div>-->
-<!--<div th:if="${passwordChangeSuccess}" th:include="/templates/alert :: alert('success', 'Пароль успешно изменен.')"></div>-->
-<div class="col-sm-4 col-view">
-    <p>Фамилия</p>
-    <span th:text="${user.lastName}"></span>
-    <p>Имя</p>
-    <span th:text="${user.firstName}"></span>
-    <p>Email</p>
-    <span th:text="${user.email}"></span>
-</div>
-<div class="col-sm-4 col-view">
-    <p>Логин</p>
-    <span th:text="${user.username}"></span>
-    <!--<p>Роль в системе</p>-->
-    <!--<span th:text="${user.role.get(userAccountForm.userRole)}"></span>-->
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/users">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">BuSport</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Users -->
+        <li class="nav-item">
+            <a class="nav-link" href="/users">
+                <i class="fas fa-fw fa-male"></i>
+                <span>Users</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Field Types -->
+        <li class="nav-item">
+            <a class="nav-link" href="/fieldTypes">
+                <i class="fas fa-fw fa-list-alt"></i>
+                <span>Field types</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Fields -->
+        <li class="nav-item">
+            <a class="nav-link" href="/fields">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Fields</span></a>
+        </li>
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+
+                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <!-- Dropdown - Messages -->
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto w-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+
+
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${authenticatedUser}"></span>
+                            <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Profile</h1>
+
+                <br/>
+                <!-- DataTales Example -->
+                <div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <p>First name:</p>
+                            <span th:text="${user.firstName}"></span>
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <p>Last name:</p>
+                            <span th:text="${user.lastName}"></span>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <p>Email:</p>
+                            <span th:text="${user.email}"></span>
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <p>Phone:</p>
+                            <span th:text="${user.phone}"></span>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <p>Username</p>
+                            <span th:text="${user.username}"></span>
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <p>Role</p>
+                            <span th:if="${user.getRole().contains(T(com.iitu.booking.model.UserRole).ADMIN)}">ADMIN</span>
+                            <span th:if="${user.getRole().contains(T(com.iitu.booking.model.UserRole).CUSTOMER)}">CUSTOMER</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2019</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
 
 </div>
+<!-- End of Page Wrapper -->
 
-<!--<div id="deleteUserDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true" style="display: none;">-->
-    <!--<div class="modal-dialog">-->
-        <!--<div class="modal-content">-->
-            <!--<form th:action="@{'/user/' + ${userAccountForm.id} + '/delete'}" method="post" class="valid">-->
-                <!--<div class="modal-header">-->
-                    <!--<button type="button" class="close" data-dismiss="modal">-->
-                        <!--<span aria-hidden="true">×</span>-->
-                        <!--<span class="sr-only">Close</span>-->
-                    <!--</button>-->
-                    <!--<h4 class="modal-title" id="delModalLabel">Подтверждение удаления пользователя</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<span>Вы действительно хотите удалить пользователя</span>-->
-                    <!--<b>-->
-                        <!--<span th:text="${userAccountForm.login}"></span>-->
-                    <!--</b>-->
-                    <!--<span>?</span>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button type="button" class="btn" data-dismiss="modal">Закрыть</button>-->
-                    <!--<button type="submit" class="btn btn-danger">Удалить</button>-->
-                <!--</div>-->
-            <!--</form>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-<!--<div id="unlockUserDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true" style="display: none;">-->
-    <!--<div class="modal-dialog">-->
-        <!--<div class="modal-content">-->
-            <!--<form th:action="@{'/user/' + ${userAccountForm.id} + '/unlock'}" method="post" class="valid">-->
-                <!--<div class="modal-header">-->
-                    <!--<button type="button" class="close" data-dismiss="modal">-->
-                        <!--<span aria-hidden="true">×</span>-->
-                        <!--<span class="sr-only">Close</span>-->
-                    <!--</button>-->
-                    <!--<h4 class="modal-title" id="unlockModalLabel">Подтверждение разблокировки пользователя</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<span>Вы действительно хотите снять временную блокировку аккаунта пользователя</span>-->
-                    <!--<b>-->
-                        <!--<span th:text="${userAccountForm.login}"></span>-->
-                    <!--</b>-->
-                    <!--<span>?</span>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button type="button" class="btn" data-dismiss="modal">Закрыть</button>-->
-                    <!--<button type="submit" class="btn btn-warning">Разблокировать</button>-->
-                <!--</div>-->
-            <!--</form>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
-<!--<form class="form-horizontal" method="post">-->
-    <!--<input type="hidden" class="form-control" id="userAccountForm.id" th:field="*{userAccountForm.id}" />-->
-    <!--&lt;!&ndash; /* Show general error message when form contains errors */ &ndash;&gt;-->
-    <!--<div th:if="${#fields.hasErrors('${userAccountForm.*}')}" th:include="/templates/alert :: alert('danger', 'Форма содержит ошибки. Исправьте их, пожалуйста.')"></div>-->
-<!--</form>-->
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="/login">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/datatables-demo.js"></script>
+
 </body>
+
 </html>
